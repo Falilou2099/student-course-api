@@ -1,0 +1,40 @@
+---
+# Configuration Codacy pour l'analyse statique
+engines:
+  eslint:
+    enabled: true
+    exclude_paths:
+      - "node_modules/**"
+      - "coverage/**"
+      - "*.min.js"
+  
+  jshint:
+    enabled: false  # Désactivé car nous utilisons ESLint
+  
+  nodesecurity:
+    enabled: true  # Analyse des vulnérabilités de sécurité
+
+exclude_paths:
+  - "node_modules/**"
+  - "coverage/**"
+  - "*.min.js"
+  - "package-lock.json"
+  - ".github/**"
+
+# Configuration des métriques de qualité
+coverage:
+  precision: 2
+  round: down
+  range: "50...100"
+
+# Seuils de qualité
+duplication:
+  threshold: 3  # Maximum 3% de duplication
+
+complexity:
+  threshold: 15  # Complexité cyclomatique maximum
+
+# Exclusions spécifiques
+exclude_patterns:
+  - "tests/**/*.test.js"  # Les tests peuvent avoir une complexité plus élevée
+  - "swagger.json"        # Fichier généré automatiquement

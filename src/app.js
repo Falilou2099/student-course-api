@@ -16,7 +16,7 @@ const options = {
   apis: ["./src/controllers/*.js"], // Chemin vers les fichiers avec les commentaires JSDoc
 }
 
-const _swaggerSpec = swaggerJSDoc(options)
+const swaggerSpec = swaggerJSDoc(options)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(z))
 
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -32,7 +32,7 @@ app.use((req, res) => {
   res.status(404).json({ error: "Not Found" })
 })
 
-app.use((err, req, res, _next) => {
+app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ error: "Internal Server Error" })
 })

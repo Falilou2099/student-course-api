@@ -1,16 +1,27 @@
 {
   "semi": false,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 80,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "bracketSameLine": false,
+  "quoteProps": "as-needed",
   "overrides": [
     {
-      "files": "*.studentsController.js",
+      "files": ["*.json", "*.md"],
       "options": {
-        "semi": true
+        "tabWidth": 2
       }
     },
     {
-      "files": ["*.html", "legacy/**/*.js"],
+      "files": ["*.js"],
       "options": {
-        "tabWidth": 4
+        "semi": false,
+        "singleQuote": false
       }
     }
   ]

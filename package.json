@@ -7,8 +7,14 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "jest --runInBand",
+    "test:watch": "jest --runInBand --watch",
+    "test:coverage": "jest --runInBand --coverage",
     "lint": "eslint . --ext .js",
-    "format": "prettier --write ."
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "quality": "npm run lint && npm run format:check && npm run test",
+    "precommit": "npm run lint:fix && npm run format && npm run test"
   },
   "author": "EL AMRANI Amine",
   "license": "MIT",

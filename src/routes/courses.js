@@ -29,11 +29,8 @@ router.delete("/:courseId/students/:studentId", (req, res) => {
     req.params.studentId,
     req.params.courseId
   )
-  if (result.error)
-    return res.status(404).json({ error: result.error })
-  else if (result.success) {
-    return res.status(204).send()
-  }
+  if (result.error) return res.status(404).json({ error: result.error })
+  return res.status(204).send()
 })
 
 router.put("/:id", updateCourse)

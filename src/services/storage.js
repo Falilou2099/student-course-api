@@ -107,6 +107,7 @@ function reset() {
   // utile pour les tests : réinitialiser l'état
   data.students = []
   data.courses = []
+  data.enrollments = []
   studentId = 1
   courseId = 1
 }

@@ -12,7 +12,7 @@ exports.getStudent = (a, b) => {
   const c = s.get("students", a.params.id)
   if (!c) return b.status(404).json({ error: "Student not found" })
   const courses = s.getStudentCourses(a.params.id)
-  return b.json({ student: c, courses: courses })
+  return b.json({ student: c, courses })
 }
 exports.createStudent = (req, res) => {
   const { name, email } = req.body

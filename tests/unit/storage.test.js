@@ -5,8 +5,8 @@ const storage = require("../../src/services/storage")
 // Configuration exécutée avant chaque test
 // Remet à zéro les données et charge les données de test
 beforeEach(() => {
-  storage.reset()  // Vide toutes les collections
-  storage.seed()   // Charge les données initiales (3 étudiants, 2 cours)
+  storage.reset() // Vide toutes les collections
+  storage.seed() // Charge les données initiales (3 étudiants, 2 cours)
 })
 
 // Test de validation : empêcher les titres de cours dupliqués
@@ -27,7 +27,7 @@ test("should not allow duplicate course title", () => {
 // Test de lecture : vérifier que les données initiales sont correctement chargées
 test("should list seeded students", () => {
   const students = storage.list("students")
-  expect(students.length).toBe(3)        // 3 étudiants dans les données de test
+  expect(students.length).toBe(3) // 3 étudiants dans les données de test
   expect(students[0].name).toBe("Alice") // Premier étudiant est Alice
 })
 
@@ -37,8 +37,8 @@ test("should create a new student", () => {
     name: "David",
     email: "david@example.com",
   })
-  expect(result.name).toBe("David")                    // Nom correctement assigné
-  expect(storage.list("students").length).toBe(4)     // Total passe à 4 étudiants
+  expect(result.name).toBe("David") // Nom correctement assigné
+  expect(storage.list("students").length).toBe(4) // Total passe à 4 étudiants
 })
 
 // Test de validation : empêcher les emails d'étudiants dupliqués

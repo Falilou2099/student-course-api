@@ -21,17 +21,17 @@ describe("Student-Course API Tests Complets", () => {
     // Test basique : récupération de tous les étudiants
     test("GET /students should return seeded students", async () => {
       const res = await request(app).get("/students")
-      expect(res.statusCode).toBe(200)           // Statut HTTP OK
-      expect(res.body.students.length).toBe(3)   // 3 étudiants dans les données de test
+      expect(res.statusCode).toBe(200) // Statut HTTP OK
+      expect(res.body.students.length).toBe(3) // 3 étudiants dans les données de test
       expect(res.body.students[0].name).toBe("Alice") // Premier étudiant est Alice
-      expect(res.body.total).toBe(3)             // Total correct
+      expect(res.body.total).toBe(3) // Total correct
     })
 
     // Test de filtrage : recherche par nom
     test("GET /students with name filter should return filtered results", async () => {
       const res = await request(app).get("/students?name=Alice")
       expect(res.statusCode).toBe(200)
-      expect(res.body.students.length).toBe(1)   // Un seul résultat
+      expect(res.body.students.length).toBe(1) // Un seul résultat
       expect(res.body.students[0].name).toBe("Alice") // Résultat correct
     })
 
@@ -39,7 +39,7 @@ describe("Student-Course API Tests Complets", () => {
     test("GET /students with email filter should return filtered results", async () => {
       const res = await request(app).get("/students?email=bob")
       expect(res.statusCode).toBe(200)
-      expect(res.body.students.length).toBe(1)   // Un seul résultat
+      expect(res.body.students.length).toBe(1) // Un seul résultat
       expect(res.body.students[0].email).toBe("bob@example.com") // Email complet trouvé
     })
 
@@ -47,15 +47,15 @@ describe("Student-Course API Tests Complets", () => {
     test("GET /students with pagination should return paginated results", async () => {
       const res = await request(app).get("/students?page=1&limit=2")
       expect(res.statusCode).toBe(200)
-      expect(res.body.students.length).toBe(2)   // Limite respectée
-      expect(res.body.total).toBe(3)             // Total global inchangé
+      expect(res.body.students.length).toBe(2) // Limite respectée
+      expect(res.body.total).toBe(3) // Total global inchangé
     })
 
     // Test de récupération individuelle : étudiant avec ses cours
     test("GET /students/:id should return student with courses", async () => {
       const res = await request(app).get("/students/1")
       expect(res.statusCode).toBe(200)
-      expect(res.body.student.name).toBe("Alice")    // Données de l'étudiant
+      expect(res.body.student.name).toBe("Alice") // Données de l'étudiant
       expect(res.body.student.email).toBe("alice@example.com")
       expect(Array.isArray(res.body.courses)).toBe(true) // Liste des cours (peut être vide)
     })
@@ -63,7 +63,7 @@ describe("Student-Course API Tests Complets", () => {
     // Test de gestion d'erreur : étudiant inexistant
     test("GET /students/:id should return 404 for non-existent student", async () => {
       const res = await request(app).get("/students/999") // ID inexistant
-      expect(res.statusCode).toBe(404)               // Erreur 404 Not Found
+      expect(res.statusCode).toBe(404) // Erreur 404 Not Found
       expect(res.body.error).toBe("Student not found") // Message d'erreur explicite
     })
 
@@ -74,10 +74,10 @@ describe("Student-Course API Tests Complets", () => {
       const res = await request(app)
         .post("/students")
         .send({ name: "David", email: "david@example.com" })
-      expect(res.statusCode).toBe(201)               // Statut 201 Created
-      expect(res.body.name).toBe("David")            // Nom correctement sauvé
+      expect(res.statusCode).toBe(201) // Statut 201 Created
+      expect(res.body.name).toBe("David") // Nom correctement sauvé
       expect(res.body.email).toBe("david@example.com") // Email correctement sauvé
-      expect(res.body.id).toBeDefined()              // ID généré automatiquement
+      expect(res.body.id).toBeDefined() // ID généré automatiquement
     })
 
     // Tests de validation : données manquantes ou invalides
@@ -85,21 +85,21 @@ describe("Student-Course API Tests Complets", () => {
       const res = await request(app)
         .post("/students")
         .send({ email: "test@example.com" }) // Nom manquant
-      expect(res.statusCode).toBe(400)       // Erreur de validation
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("name and email required")
     })
 
     test("POST /students should return 400 for missing email", async () => {
       const res = await request(app).post("/students").send({ name: "Test" }) // Email manquant
-      expect(res.statusCode).toBe(400)       // Erreur de validation
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("name and email required")
     })
 
     test("POST /students should return 400 for empty fields", async () => {
       const res = await request(app)
         .post("/students")
-        .send({ name: "", email: "" })       // Champs vides
-      expect(res.statusCode).toBe(400)       // Erreur de validation
+        .send({ name: "", email: "" }) // Champs vides
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("name and email required")
     })
 
@@ -108,7 +108,7 @@ describe("Student-Course API Tests Complets", () => {
       const res = await request(app)
         .post("/students")
         .send({ name: "Eve", email: "alice@example.com" }) // Email déjà utilisé
-      expect(res.statusCode).toBe(400)       // Erreur de validation métier
+      expect(res.statusCode).toBe(400) // Erreur de validation métier
       expect(res.body.error).toBe("Email must be unique")
     })
 
@@ -119,8 +119,8 @@ describe("Student-Course API Tests Complets", () => {
       const res = await request(app)
         .put("/students/1")
         .send({ name: "Alice Updated", email: "alice.updated@example.com" })
-      expect(res.statusCode).toBe(200)               // Statut 200 OK
-      expect(res.body.name).toBe("Alice Updated")    // Nom mis à jour
+      expect(res.statusCode).toBe(200) // Statut 200 OK
+      expect(res.body.name).toBe("Alice Updated") // Nom mis à jour
       expect(res.body.email).toBe("alice.updated@example.com") // Email mis à jour
     })
 
@@ -128,9 +128,9 @@ describe("Student-Course API Tests Complets", () => {
     test("PUT /students/:id should update only name", async () => {
       const res = await request(app)
         .put("/students/1")
-        .send({ name: "Alice New Name" })             // Seul le nom est fourni
+        .send({ name: "Alice New Name" }) // Seul le nom est fourni
       expect(res.statusCode).toBe(200)
-      expect(res.body.name).toBe("Alice New Name")    // Nom mis à jour
+      expect(res.body.name).toBe("Alice New Name") // Nom mis à jour
       expect(res.body.email).toBe("alice@example.com") // Email inchangé
     })
 
@@ -138,16 +138,16 @@ describe("Student-Course API Tests Complets", () => {
     test("PUT /students/:id should update only email", async () => {
       const res = await request(app)
         .put("/students/1")
-        .send({ email: "alice.new@example.com" })     // Seul l'email est fourni
+        .send({ email: "alice.new@example.com" }) // Seul l'email est fourni
       expect(res.statusCode).toBe(200)
-      expect(res.body.name).toBe("Alice")             // Nom inchangé
+      expect(res.body.name).toBe("Alice") // Nom inchangé
       expect(res.body.email).toBe("alice.new@example.com") // Email mis à jour
     })
 
     // Test de gestion d'erreur : étudiant inexistant pour mise à jour
     test("PUT /students/:id should return 404 for non-existent student", async () => {
       const res = await request(app).put("/students/999").send({ name: "Test" }) // ID inexistant
-      expect(res.statusCode).toBe(404)               // Erreur 404 Not Found
+      expect(res.statusCode).toBe(404) // Erreur 404 Not Found
       expect(res.body.error).toBe("Student not found")
     })
 
@@ -155,8 +155,8 @@ describe("Student-Course API Tests Complets", () => {
     test("PUT /students/:id should return 400 for duplicate email", async () => {
       const res = await request(app)
         .put("/students/1")
-        .send({ email: "bob@example.com" })          // Email déjà utilisé par Bob
-      expect(res.statusCode).toBe(400)               // Erreur de validation
+        .send({ email: "bob@example.com" }) // Email déjà utilisé par Bob
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("Email must be unique")
     })
 
@@ -165,17 +165,17 @@ describe("Student-Course API Tests Complets", () => {
     // Test de suppression réussie
     test("DELETE /students/:id should delete student", async () => {
       const res = await request(app).delete("/students/1")
-      expect(res.statusCode).toBe(204)               // Statut 204 No Content
+      expect(res.statusCode).toBe(204) // Statut 204 No Content
 
       // Vérification : l'étudiant n'existe plus
       const getRes = await request(app).get("/students/1")
-      expect(getRes.statusCode).toBe(404)            // Confirmation de la suppression
+      expect(getRes.statusCode).toBe(404) // Confirmation de la suppression
     })
 
     // Test de gestion d'erreur : étudiant inexistant pour suppression
     test("DELETE /students/:id should return 404 for non-existent student", async () => {
       const res = await request(app).delete("/students/999") // ID inexistant
-      expect(res.statusCode).toBe(404)               // Erreur 404 Not Found
+      expect(res.statusCode).toBe(404) // Erreur 404 Not Found
       expect(res.body.error).toBe("Student not found")
     })
 
@@ -185,7 +185,7 @@ describe("Student-Course API Tests Complets", () => {
       await request(app).post("/courses/1/students/1")
 
       const res = await request(app).delete("/students/1")
-      expect(res.statusCode).toBe(400)               // Erreur de règle métier
+      expect(res.statusCode).toBe(400) // Erreur de règle métier
       expect(res.body.error).toBe("Cannot delete student: enrolled in a course")
     })
   })
@@ -199,17 +199,17 @@ describe("Student-Course API Tests Complets", () => {
     // Test basique : récupération de tous les cours
     test("GET /courses should return seeded courses", async () => {
       const res = await request(app).get("/courses")
-      expect(res.statusCode).toBe(200)           // Statut HTTP OK
-      expect(res.body.courses.length).toBe(3)    // 3 cours dans les données de test
+      expect(res.statusCode).toBe(200) // Statut HTTP OK
+      expect(res.body.courses.length).toBe(3) // 3 cours dans les données de test
       expect(res.body.courses[0].title).toBe("Math") // Premier cours est Math
-      expect(res.body.total).toBe(3)             // Total correct
+      expect(res.body.total).toBe(3) // Total correct
     })
 
     // Test de filtrage : recherche par titre
     test("GET /courses with title filter should return filtered results", async () => {
       const res = await request(app).get("/courses?title=Math")
       expect(res.statusCode).toBe(200)
-      expect(res.body.courses.length).toBe(1)    // Un seul résultat
+      expect(res.body.courses.length).toBe(1) // Un seul résultat
       expect(res.body.courses[0].title).toBe("Math") // Résultat correct
     })
 
@@ -217,7 +217,7 @@ describe("Student-Course API Tests Complets", () => {
     test("GET /courses with teacher filter should return filtered results", async () => {
       const res = await request(app).get("/courses?teacher=Smith")
       expect(res.statusCode).toBe(200)
-      expect(res.body.courses.length).toBe(1)    // Un seul résultat
+      expect(res.body.courses.length).toBe(1) // Un seul résultat
       expect(res.body.courses[0].teacher).toBe("Mr. Smith") // Nom complet trouvé
     })
 
@@ -225,8 +225,8 @@ describe("Student-Course API Tests Complets", () => {
     test("GET /courses with pagination should return paginated results", async () => {
       const res = await request(app).get("/courses?page=1&limit=2")
       expect(res.statusCode).toBe(200)
-      expect(res.body.courses.length).toBe(2)    // Limite respectée
-      expect(res.body.total).toBe(3)             // Total global inchangé
+      expect(res.body.courses.length).toBe(2) // Limite respectée
+      expect(res.body.total).toBe(3) // Total global inchangé
     })
 
     test("GET /courses/:id should return course with students", async () => {
@@ -357,25 +357,25 @@ describe("Student-Course API Tests Complets", () => {
     // Test d'inscription réussie : étudiant vers cours
     test("POST /courses/:courseId/students/:studentId should enroll student", async () => {
       const res = await request(app).post("/courses/1/students/1")
-      expect(res.statusCode).toBe(201)           // Statut 201 Created
-      expect(res.body.success).toBe(true)        // Confirmation de succès
+      expect(res.statusCode).toBe(201) // Statut 201 Created
+      expect(res.body.success).toBe(true) // Confirmation de succès
 
       // Vérification : l'étudiant apparaît dans la liste du cours
       const courseRes = await request(app).get("/courses/1")
-      expect(courseRes.body.students.length).toBe(1)     // Un étudiant inscrit
+      expect(courseRes.body.students.length).toBe(1) // Un étudiant inscrit
       expect(courseRes.body.students[0].name).toBe("Alice") // Alice est inscrite
     })
 
     // Tests de validation : entités inexistantes
     test("POST /courses/:courseId/students/:studentId should return 400 for non-existent course", async () => {
       const res = await request(app).post("/courses/999/students/1") // Cours inexistant
-      expect(res.statusCode).toBe(400)           // Erreur de validation
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("Course not found")
     })
 
     test("POST /courses/:courseId/students/:studentId should return 400 for non-existent student", async () => {
       const res = await request(app).post("/courses/1/students/999") // Étudiant inexistant
-      expect(res.statusCode).toBe(400)           // Erreur de validation
+      expect(res.statusCode).toBe(400) // Erreur de validation
       expect(res.body.error).toBe("Student not found")
     })
 
@@ -386,7 +386,7 @@ describe("Student-Course API Tests Complets", () => {
 
       // Tentative de double inscription
       const res = await request(app).post("/courses/1/students/1")
-      expect(res.statusCode).toBe(400)           // Erreur de règle métier
+      expect(res.statusCode).toBe(400) // Erreur de règle métier
       expect(res.body.error).toBe("Student already enrolled in this course")
     })
 
@@ -404,7 +404,7 @@ describe("Student-Course API Tests Complets", () => {
 
       // Tentative d'inscription du 4ème étudiant (doit échouer)
       const res = await request(app).post("/courses/1/students/4")
-      expect(res.statusCode).toBe(400)           // Erreur de capacité
+      expect(res.statusCode).toBe(400) // Erreur de capacité
       expect(res.body.error).toBe("Course is full")
     })
 
@@ -416,7 +416,7 @@ describe("Student-Course API Tests Complets", () => {
       await request(app).post("/courses/1/students/1")
 
       const res = await request(app).delete("/courses/1/students/1")
-      expect(res.statusCode).toBe(204)           // Statut 204 No Content
+      expect(res.statusCode).toBe(204) // Statut 204 No Content
 
       // Vérification : l'étudiant n'est plus dans la liste du cours
       const courseRes = await request(app).get("/courses/1")
@@ -426,7 +426,7 @@ describe("Student-Course API Tests Complets", () => {
     // Test de gestion d'erreur : inscription inexistante
     test("DELETE /courses/:courseId/students/:studentId should return 404 for non-existent enrollment", async () => {
       const res = await request(app).delete("/courses/1/students/1") // Pas d'inscription existante
-      expect(res.statusCode).toBe(404)           // Erreur 404 Not Found
+      expect(res.statusCode).toBe(404) // Erreur 404 Not Found
       expect(res.body.error).toBe("Enrollment not found")
     })
   })
@@ -438,8 +438,8 @@ describe("Student-Course API Tests Complets", () => {
     // Test de gestion des routes inexistantes
     test("GET /nonexistent-route should return 404", async () => {
       const res = await request(app).get("/nonexistent-route") // Route non définie
-      expect(res.statusCode).toBe(404)           // Erreur 404 Not Found
-      expect(res.body.error).toBe("Not Found")   // Message d'erreur générique
+      expect(res.statusCode).toBe(404) // Erreur 404 Not Found
+      expect(res.body.error).toBe("Not Found") // Message d'erreur générique
     })
 
     // === TESTS DE COHÉRENCE DES RELATIONS ===
@@ -453,8 +453,8 @@ describe("Student-Course API Tests Complets", () => {
       // Vérifier que Alice voit ses deux cours
       const res = await request(app).get("/students/1")
       expect(res.statusCode).toBe(200)
-      expect(res.body.courses.length).toBe(2)    // Deux cours inscrits
-      expect(res.body.courses[0].title).toBe("Math")    // Premier cours
+      expect(res.body.courses.length).toBe(2) // Deux cours inscrits
+      expect(res.body.courses[0].title).toBe("Math") // Premier cours
       expect(res.body.courses[1].title).toBe("Physics") // Deuxième cours
     })
 
@@ -467,9 +467,9 @@ describe("Student-Course API Tests Complets", () => {
       // Vérifier que le cours voit ses deux étudiants
       const res = await request(app).get("/courses/1")
       expect(res.statusCode).toBe(200)
-      expect(res.body.students.length).toBe(2)   // Deux étudiants inscrits
-      expect(res.body.students[0].name).toBe("Alice")   // Premier étudiant
-      expect(res.body.students[1].name).toBe("Bob")     // Deuxième étudiant
+      expect(res.body.students.length).toBe(2) // Deux étudiants inscrits
+      expect(res.body.students[0].name).toBe("Alice") // Premier étudiant
+      expect(res.body.students[1].name).toBe("Bob") // Deuxième étudiant
     })
   })
 })

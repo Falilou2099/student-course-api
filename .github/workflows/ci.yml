@@ -1,5 +1,8 @@
+# Pipeline CI/CD pour l'API Student-Course
+# Exécute les tests, le linting et le formatage automatiquement
 name: Tests CI
 
+# Déclenche le pipeline sur push et pull request vers master
 on:
   push:
     branches:
@@ -10,19 +13,32 @@ on:
 
 jobs:
   test:
+    # Utilise la dernière version d'Ubuntu pour l'environnement de test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      # Récupère le code source du repository
+      - uses: actions/checkout@v4
+      
+      # Configure Node.js version 18 (LTS)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
+          cache: 'npm'
+      
+      # Installe toutes les dépendances du projet
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+      
+      # Vérifie la qualité du code avec ESLint
       - name: Lint code
         run: npm run lint
+      
+      # Vérifie le formatage du code avec Prettier
       - name: Format code
         run: npm run format
+      
+      # Exécute tous les tests unitaires et d'intégration
       - name: Run tests
         run: npm run test

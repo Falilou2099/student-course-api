@@ -1,10 +1,15 @@
+// Tests d'intégration pour l'API Student-Course
+// Teste l'ensemble de l'application via les endpoints HTTP
+// Utilise supertest pour simuler les requêtes HTTP
 const request = require("supertest")
 const app = require("../../src/app")
 
 describe("Student-Course API Tests Complets", () => {
+  // Configuration exécutée avant chaque test
+  // Garantit un état propre et prévisible pour chaque test
   beforeEach(() => {
-    require("../../src/services/storage").reset()
-    require("../../src/services/storage").seed()
+    require("../../src/services/storage").reset()  // Vide toutes les données
+    require("../../src/services/storage").seed()   // Charge les données de test (3 étudiants, 3 cours)
   })
 
   // ==================== TESTS ÉTUDIANTS ====================

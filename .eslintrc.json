@@ -1,68 +1,91 @@
 {
+  // Configuration ESLint pour l'API Student-Course
+  // Définit les environnements d'exécution supportés
   "env": {
-    "node": true,
-    "es2021": true,
-    "jest": true
+    "node": true,      // Environnement Node.js
+    "es2021": true,    // Support des fonctionnalités ES2021
+    "jest": true       // Environnement de test Jest
   },
+  
+  // Étend la configuration recommandée d'ESLint
   "extends": ["eslint:recommended"],
+  
+  // Options du parser JavaScript
   "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "module"
+    "ecmaVersion": 2021,    // Version ECMAScript à utiliser
+    "sourceType": "module"  // Utilise les modules ES6
   },
+  
+  // Règles de style et de qualité du code
   "rules": {
-    "semi": ["error", "never"],
-    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
-    "indent": ["error", 2],
-    "no-trailing-spaces": "error",
-    "eol-last": ["error", "always"],
+    // Style de code
+    "semi": ["error", "never"],                                    // Pas de point-virgule
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }], // Guillemets doubles
+    "indent": ["error", 2],                                        // Indentation 2 espaces
+    "no-trailing-spaces": "error",                                 // Pas d'espaces en fin de ligne
+    "eol-last": ["error", "always"],                              // Ligne vide en fin de fichier
+    
+    // Gestion des virgules
     "comma-dangle": [
       "error",
       {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "never"
+        "arrays": "always-multiline",    // Virgule finale pour les tableaux multilignes
+        "objects": "always-multiline",   // Virgule finale pour les objets multilignes
+        "imports": "always-multiline",   // Virgule finale pour les imports multilignes
+        "exports": "always-multiline",   // Virgule finale pour les exports multilignes
+        "functions": "never"             // Pas de virgule finale pour les fonctions
       }
     ],
+    
+    // Gestion des variables
     "no-unused-vars": [
       "error",
       {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_"
+        "argsIgnorePattern": "^_",  // Ignore les arguments commençant par _
+        "varsIgnorePattern": "^_"   // Ignore les variables commençant par _
       }
     ],
-    "no-console": "off",
-    "prefer-const": "error",
-    "no-var": "error",
-    "object-shorthand": "error",
-    "prefer-arrow-callback": "error",
-    "arrow-spacing": "error",
-    "space-before-blocks": "error",
-    "keyword-spacing": "error",
-    "space-infix-ops": "error",
-    "comma-spacing": "error",
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
-    "curly": ["error", "all"],
-    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
-    "padded-blocks": ["error", "never"],
+    "no-console": "off",              // Autorise console.log (utile pour le debugging)
+    "prefer-const": "error",          // Préfère const quand la variable n'est pas réassignée
+    "no-var": "error",                // Interdit var, utilise let/const
+    
+    // Style des fonctions et objets
+    "object-shorthand": "error",      // Utilise la syntaxe courte pour les objets
+    "prefer-arrow-callback": "error", // Préfère les fonctions fléchées pour les callbacks
+    
+    // Espacement et formatage
+    "arrow-spacing": "error",         // Espaces autour des flèches =>
+    "space-before-blocks": "error",   // Espace avant les blocs {}
+    "keyword-spacing": "error",       // Espaces autour des mots-clés
+    "space-infix-ops": "error",       // Espaces autour des opérateurs
+    "comma-spacing": "error",         // Espaces après les virgules
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }], // Style des accolades
+    "curly": ["error", "all"],        // Accolades obligatoires pour tous les blocs
+    
+    // Gestion des lignes vides
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }], // Max 2 lignes vides
+    "padded-blocks": ["error", "never"],                              // Pas de lignes vides dans les blocs
+    
+    // Espacement des fonctions
     "space-before-function-paren": [
       "error",
       {
-        "anonymous": "always",
-        "named": "never",
-        "asyncArrow": "always"
+        "anonymous": "always",   // Espace avant () pour fonctions anonymes
+        "named": "never",        // Pas d'espace pour fonctions nommées
+        "asyncArrow": "always"   // Espace pour fonctions fléchées async
       }
     ]
   },
+  
+  // Configuration spécifique pour les fichiers de test
   "overrides": [
     {
       "files": ["tests/**/*.js"],
       "env": {
-        "jest": true
+        "jest": true  // Environnement Jest pour les tests
       },
       "rules": {
-        "no-unused-expressions": "off"
+        "no-unused-expressions": "off"  // Autorise les expressions non utilisées dans les tests
       }
     }
   ]
